@@ -2,7 +2,7 @@ from typing import List, Tuple
 import numpy as np
 from scipy.spatial import Delaunay
 
-def interpolate_tin(points: List[Tuple[float, float, float]], method: str = 'linear') -> np.ndarray:
+def interpolate_tin(points: np.ndarray, method: str = 'linear') -> np.ndarray:
     """
     Interpolate values using the TIN (Triangulated Irregular Network) algorithm.
 
@@ -14,16 +14,14 @@ def interpolate_tin(points: List[Tuple[float, float, float]], method: str = 'lin
         A 2D numpy array representing the interpolated values.
     """
     # Extract x, y, and z coordinates from the points
-    x = [point[0] for point in points]
-    y = [point[1] for point in points]
-    z = [point[2] for point in points]
+    x, y, z = points[:, 0], points[:, 1], points[:, 2]
 
     # Create a Delaunay triangulation
-    tri = Delaunay(np.array([x, y]).T)
+    tri = Delaunay(points[:, :2])
 
     # Create a grid of points for interpolation
-    x_min, x_max = min(x), max(x)
-    y_min, y_max = min(y), max(y)
+    x_min, x_max = np.min(x), np.max(x)
+    y_min, y_max = np.min(y), np.max(y)
     x_grid, y_grid = np.meshgrid(np.linspace(x_min, x_max, 100), np.linspace(y_min, y_max, 100))
 
     # Interpolate values using the chosen method

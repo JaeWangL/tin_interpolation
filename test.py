@@ -5,7 +5,7 @@ from tin import interpolate_tin, _interpolate_linear, _interpolate_cubic, _calcu
 
 class TestTINInterpolation(unittest.TestCase):
     def test_interpolate_tin_linear(self):
-        points = [(0, 0, 1), (1, 0, 2), (0, 1, 3), (1, 1, 4)]
+        points = np.array([(0, 0, 1), (1, 0, 2), (0, 1, 3), (1, 1, 4)])
         interpolated_values = interpolate_tin(points, method='linear')
 
         expected_shape = (100, 100)
@@ -17,7 +17,7 @@ class TestTINInterpolation(unittest.TestCase):
         self.assertAlmostEqual(np.max(interpolated_values), expected_max_value)
 
     def test_interpolate_tin_cubic(self):
-        points = [(0, 0, 1), (1, 0, 2), (0, 1, 3), (1, 1, 4)]
+        points = np.array([(0, 0, 1), (1, 0, 2), (0, 1, 3), (1, 1, 4)])
         interpolated_values = interpolate_tin(points, method='cubic')
 
         expected_shape = (100, 100)
@@ -29,7 +29,7 @@ class TestTINInterpolation(unittest.TestCase):
         self.assertAlmostEqual(np.max(interpolated_values), expected_max_value, places=1)
 
     def test_interpolate_tin_invalid_method(self):
-        points = [(0, 0, 1), (1, 0, 2), (0, 1, 3), (1, 1, 4)]
+        points = np.array([(0, 0, 1), (1, 0, 2), (0, 1, 3), (1, 1, 4)])
         with self.assertRaises(ValueError):
             interpolate_tin(points, method='invalid')
 
